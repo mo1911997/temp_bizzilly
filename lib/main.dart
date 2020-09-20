@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:VeViRe/Screens/SplashScreen.dart';
 import 'package:VeViRe/utilities/constants.dart';
+import 'package:flutter/rendering.dart';
 
-void main() => runApp(MyApp());
+void main()  {
+  WidgetsFlutterBinding.ensureInitialized();  
+  runApp(MyApp());
+  }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

@@ -138,7 +138,8 @@ class _DetailsListPageState extends State<DetailsListPage> {
                 children: <Widget>[
                   RaisedButton(
                     color: Color.fromRGBO(31, 73, 125, 1.0),
-                    onPressed: () {                      
+                    onPressed: () { 
+                      Navigator.pop(context);                     
                       getLocation();
                     },
                     child: Text(
@@ -295,7 +296,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
   }
 
   launchCall(var contact) async {
-    var url = 'tel:+1 ' + contact;
+    var url = 'tel:+1' + contact;
     if (await canLaunch(url)) {
       await launch(url);
     } else {

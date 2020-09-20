@@ -3,6 +3,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:VeViRe/bloc/SplashBloc.dart';
 import 'package:VeViRe/utilities/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/animation.dart';
 
@@ -25,8 +26,10 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-    // getToken();    
-    Timer(
+    // getToken();         
+    
+  // your code after page opens,splash keeps open until work is done
+  Timer(
         Duration(seconds: 5),
         () => Navigator.push(
               context,
@@ -55,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     userDataUrl = BASE_URL + 'users/get_user_data';   
     getScreenName();     
+  
   }
 
   checkInternetConnection() async {
