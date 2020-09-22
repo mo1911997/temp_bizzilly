@@ -50,7 +50,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
   var com, cat;
   List favs;
   final storage = FlutterSecureStorage();
-  List favorites;  
+  List favorites;
   // bool _serviceEnabled;
   Widget appBarTitle;
   Icon actionIcon;
@@ -103,13 +103,12 @@ class _DetailsListPageState extends State<DetailsListPage> {
       }
     });
 
-    // getFavorites();    
+    // getFavorites();
     // getCoordinates();
   }
-  locationServiceHandlerDialog(text)
-  {
+
+  locationServiceHandlerDialog(text) {
     Dialog errorDialog = Dialog(
-      
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0)), //this right here
       child: Container(
@@ -130,73 +129,11 @@ class _DetailsListPageState extends State<DetailsListPage> {
                 )
               ],
             ),
-            
             Container(
               width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  RaisedButton(
-                    color: Color.fromRGBO(31, 73, 125, 1.0),
-                    onPressed: () { 
-                      Navigator.pop(context);                     
-                      getLocation();
-                    },
-                    child: Text(
-                      "Refresh",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),                  
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    showDialog(
-        barrierDismissible: false,
-        context: context, builder: (BuildContext context) => errorDialog);
-  }
-  locationPermissionHandlerDialog(text) async {
-    Dialog errorDialog = Dialog(
-      
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0)), //this right here
-      child: Container(
-        height: 200.0,
-        width: 300.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  text.toString(),
-                  style: TextStyle(
-                      fontSize: 14.0,
-                      color: Color.fromRGBO(31, 73, 125, 1.0),
-                      fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  RaisedButton(
-                    color: Color.fromRGBO(31, 73, 125, 1.0),
-                    onPressed: () async {                      
-                      await LocationPermissions().openAppSettings();
-                    },
-                    child: Text(
-                      "Open App Settings",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),  
                   RaisedButton(
                     color: Color.fromRGBO(31, 73, 125, 1.0),
                     onPressed: () {
@@ -207,7 +144,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
                       "Refresh",
                       style: TextStyle(color: Colors.white),
                     ),
-                  )                
+                  ),
                 ],
               ),
             ),
@@ -217,7 +154,69 @@ class _DetailsListPageState extends State<DetailsListPage> {
     );
     showDialog(
         barrierDismissible: false,
-        context: context, builder: (BuildContext context) => errorDialog);
+        context: context,
+        builder: (BuildContext context) => errorDialog);
+  }
+
+  locationPermissionHandlerDialog(text) async {
+    Dialog errorDialog = Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0)), //this right here
+      child: Container(
+        height: 200.0,
+        width: 300.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  text.toString(),
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      color: Color.fromRGBO(31, 73, 125, 1.0),
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    color: Color.fromRGBO(31, 73, 125, 1.0),
+                    onPressed: () async {
+                      await LocationPermissions().openAppSettings();
+                    },
+                    child: Text(
+                      "Open App Settings",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Color.fromRGBO(31, 73, 125, 1.0),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      getLocation();
+                    },
+                    child: Text(
+                      "Refresh",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) => errorDialog);
   }
 
   openCallDialog(index, from) async {
@@ -329,32 +328,26 @@ class _DetailsListPageState extends State<DetailsListPage> {
   }
 
   getLocation() async {
-    
-    ServiceStatus servicePermission = await LocationPermissions().checkServiceStatus();      
-    if(servicePermission == ServiceStatus.enabled)
-    {
-      PermissionStatus permissionStatus = await LocationPermissions().checkPermissionStatus();
-      if(permissionStatus == PermissionStatus.granted)
-      {
-        getCoordinates(); 
-      }
-      else 
-      {
-        PermissionStatus permissionRequest = await LocationPermissions().requestPermissions();
-        if(permissionRequest == PermissionStatus.granted)
-        {
-          getCoordinates(); 
-        }
-        else 
-        {
-          locationPermissionHandlerDialog("Please enable location permission. ");
+    ServiceStatus servicePermission =
+        await LocationPermissions().checkServiceStatus();
+    if (servicePermission == ServiceStatus.enabled) {
+      PermissionStatus permissionStatus =
+          await LocationPermissions().checkPermissionStatus();
+      if (permissionStatus == PermissionStatus.granted) {
+        getCoordinates();
+      } else {
+        PermissionStatus permissionRequest =
+            await LocationPermissions().requestPermissions();
+        if (permissionRequest == PermissionStatus.granted) {
+          getCoordinates();
+        } else {
+          locationPermissionHandlerDialog(
+              "Please enable location permission. ");
         }
       }
+    } else {
+      locationServiceHandlerDialog("Please enable location service. ");
     }
-    else 
-    {
-          locationServiceHandlerDialog("Please enable location service. ");
-    }    
   }
 
   loader() {
@@ -702,40 +695,39 @@ class _DetailsListPageState extends State<DetailsListPage> {
     }
   }
 
-  checkInternetConnection1(selected,index) async
-  {
+  checkInternetConnection1(selected, index) async {
     connectivityResult = await (Connectivity().checkConnectivity());
     setState(() {
       if (connectivityResult == ConnectivityResult.mobile ||
           connectivityResult == ConnectivityResult.wifi) {
         isConnectionActive = true;
-        comSelected(selected,index);
+        comSelected(selected, index);
       } else {
         isConnectionActive = false;
       }
     });
   }
-  checkInternetConnection2(selected,index) async
-  {
+
+  checkInternetConnection2(selected, index) async {
     connectivityResult = await (Connectivity().checkConnectivity());
     setState(() {
       if (connectivityResult == ConnectivityResult.mobile ||
           connectivityResult == ConnectivityResult.wifi) {
         isConnectionActive = true;
-        catSelected(selected,index);
+        catSelected(selected, index);
       } else {
         isConnectionActive = false;
       }
     });
   }
-  checkInternetConnection3(selected,index) async
-  {
+
+  checkInternetConnection3(selected, index) async {
     connectivityResult = await (Connectivity().checkConnectivity());
     setState(() {
       if (connectivityResult == ConnectivityResult.mobile ||
           connectivityResult == ConnectivityResult.wifi) {
         isConnectionActive = true;
-        subCatSelected(selected,index);
+        subCatSelected(selected, index);
       } else {
         isConnectionActive = false;
       }
@@ -864,7 +856,8 @@ class _DetailsListPageState extends State<DetailsListPage> {
                                         selectedColor: Colors.black,
                                         checkmarkColor: Colors.white,
                                         onSelected: (selected) async {
-                                          checkInternetConnection1(selected,index);
+                                          checkInternetConnection1(
+                                              selected, index);
                                         },
                                         backgroundColor:
                                             Color.fromRGBO(31, 73, 125, 1.0),
@@ -897,7 +890,8 @@ class _DetailsListPageState extends State<DetailsListPage> {
                                         selectedColor: Colors.black,
                                         checkmarkColor: Colors.white,
                                         onSelected: (selected) async {
-                                          checkInternetConnection2(selected,index);                                          
+                                          checkInternetConnection2(
+                                              selected, index);
                                         },
                                         backgroundColor:
                                             Color.fromRGBO(31, 73, 125, 1.0),
@@ -933,7 +927,8 @@ class _DetailsListPageState extends State<DetailsListPage> {
                                           selectedColor: Colors.black,
                                           checkmarkColor: Colors.white,
                                           onSelected: (selected) async {
-                                            checkInternetConnection3(selected,index);                                            
+                                            checkInternetConnection3(
+                                                selected, index);
                                           },
                                           backgroundColor:
                                               Color.fromRGBO(31, 73, 125, 1.0),
